@@ -205,7 +205,7 @@ sudo apt update && sudo apt install phpmyadmin php-mbstring php-zip php-gd php-j
   ```bash
   server {
     listen 80;
-    server_name public-ip-of-external-instance;  # Use your own domain for phpMyAdmin
+    server_name public-ip-of-external-instance; 
 
     # Path to the phpMyAdmin installation
     root /usr/share/phpmyadmin;
@@ -218,7 +218,7 @@ sudo apt update && sudo apt install phpmyadmin php-mbstring php-zip php-gd php-j
     # Handle PHP files with PHP-FPM
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;  # Make sure to use the correct PHP version
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
