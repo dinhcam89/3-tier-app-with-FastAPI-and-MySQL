@@ -255,5 +255,5 @@ sudo apt update && sudo apt install phpmyadmin php-mbstring php-zip php-gd php-j
     $cfg['Servers'][$i]['auth_type'] = 'cookie';      
   ```
 - Access phpMyAdmin:
-  - Navigate to https://external_instance_ip/ and log in using your MySQL credentials.
+  - Navigate to http://external_instance_ip/ and log in using your MySQL credentials.
 
