@@ -38,7 +38,35 @@ http_access deny all
 export http_proxy=http://10.100.0.100:3128
 export https_proxy=http://10.100.0.100:3128
 ```
-### 2. **Set Up MySQL on the DB Instance**
+### 2. **Install and Configure a Private DNS Server with BIND9 on the Bastion Instance**
+#### Install BIND9
+```bash
+sudo apt update
+sudo apt install bind9 bind9utils bind9-doc -y
+```
+#### Configure Private DNS Server for `.instance.local` domain:
+- Create file /etc/bind/zones/db.instance.local and add the following lines:
+```bash
+$TTL 604800
+@   IN  SOA instance.local. root.instance.local. (
+        2         ; Serial
+        604800    ; Refresh
+        86400     ; Retry
+        2419200   ; Expire
+        604800 )  ; Negative Cache TTL
+
+; Name server
+@   IN  NS  ns.instance.local.
+
+; A record for the name server
+ns IN  A   10.100.4.50
+
+; DNS records for instances
+app IN  A   10.100.0.100
+db  IN  A   10.100.0.101
+```
+
+### 3. **Set Up MySQL on the DB Instance**
 
 #### Install MySQL:
 ```bash
@@ -63,7 +91,7 @@ CREATE USER 'user'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
 GRANT ALL PRIVILEGES ON test_db.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 ```
-### 3. **Configure NGINX Reverse Proxy on Bastion Host**
+### 4. **Configure NGINX Reverse Proxy on Bastion Host**
 #### Install Nginx:
 ```bash
 sudo apt update && sudo apt install nginx -y
@@ -140,19 +168,20 @@ sudo systemctl restart nginx
 ```
 
 ### 3. **Install and Configure FastAPI (App Instance)**
-- Install FastAPI and Dependencies:
+#### Install FastAPI and Dependencies:
 ```bash
 sudo apt update && sudo apt install python3-pip python3-venv -y
 python3 -m venv venv
 source venv/bin/activate # active python virtual env
 pip install fastapi uvicorn pymysql jose python-multipart
 ```
-- Run FastAPI app
+#### Run FastAPI app
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
+- Access `https://api.lab.aandd.io/docs` for API docs and execution
 
-### 3. **Install and configure phpMyAdmin on External Client**
+### 5. **Install and configure phpMyAdmin on External Client**
 - Install phpMyAdmin
 ```bash
 sudo apt update && sudo apt install phpmyadmin -y
