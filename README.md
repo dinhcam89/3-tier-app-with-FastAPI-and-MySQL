@@ -186,7 +186,7 @@ pip install fastapi uvicorn pymysql jose python-multipart
 #### Run FastAPI app
 Create `main.py` file, and run FastAPI application with:
 ```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 - Access `https://api.lab.aandd.io/docs` for API docs and login with username and password created in file `main.py` for API execution
 
