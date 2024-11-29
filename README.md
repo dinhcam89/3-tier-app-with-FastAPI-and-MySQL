@@ -205,7 +205,7 @@ sudo apt update && sudo apt install phpmyadmin php-mbstring php-zip php-gd php-j
   ```bash
   server {
     listen 80;
-    server_name 18.142.15.207;  # Use your own domain for phpMyAdmin
+    server_name public-ip-of-external-instance;  # Use your own domain for phpMyAdmin
 
     # Path to the phpMyAdmin installation
     root /usr/share/phpmyadmin;

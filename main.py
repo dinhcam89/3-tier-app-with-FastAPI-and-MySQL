@@ -25,10 +25,10 @@ DB_NAME = "test_db"
 # Dummy user data (for authentication)
 fake_users_db = {
     "testuser": {
-        "username": "testuser",
+        "username": "user",
         "full_name": "API test user",
         "email": "testuser@example.com",
-        "hashed_password": "Changeme123@",  # Plain-text for demo, use hashing in production
+        "hashed_password": "password",  # Plain-text for demo, use hashing in production
     }
 }
 # Function to authenticate user
