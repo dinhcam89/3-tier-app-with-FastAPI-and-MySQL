@@ -167,7 +167,7 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-### 3. **Install and Configure FastAPI (App Instance)**
+### 5. **Install and Configure FastAPI (App Instance)**
 #### Install FastAPI and Dependencies:
 ```bash
 sudo apt update && sudo apt install python3-pip python3-venv -y
@@ -181,7 +181,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 - Access `https://api.lab.aandd.io/docs` for API docs and execution
 
-### 5. **Install and configure phpMyAdmin on External Client**
+### 6. **Install and configure phpMyAdmin on External Client**
 - Install phpMyAdmin
 ```bash
 sudo apt update && sudo apt install phpmyadmin -y
