@@ -1,16 +1,12 @@
 # Secure FastAPI Application with MySQL Backend and NGINX Reverse Proxy
 
-This guide provides step-by-step instructions to set up a secure FastAPI application that connects to a MySQL database, with NGINX acting as a reverse proxy. The API is secured using JWT tokens for authentication.
-
----
-
 ## Prerequisites
 
-- **Bastion Host**: Running NGINX for reverse proxy and SSL termination.
+- **Bastion Host**: Running NGINX for reverse proxy and SSL termination + Squid Forward Proxy + Bind9 Private DNS Server.
 - **App Instance**: Hosting the FastAPI app.
 - **DB Instance**: Running MySQL to store data.
 - **External Instance**: Outside VPC, hosting phpMyAdmin to access to DB instance to manage MySQL Database
-- **Domain**: `api.lab.aandd.io` (or your own domain).
+- **Domain**: `api.lab.aandd.io`.
 
 ---
 
