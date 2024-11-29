@@ -65,9 +65,9 @@ ns IN  A   10.100.4.50
 app IN  A   10.100.0.100
 db  IN  A   10.100.0.101
 ```
-- Add Private DNS Server IP to file `/etc/resolv.conf`
+- Add Private DNS Server IP to file `/etc/resolv.conf` on each Instance
 ```bash
-nameserver 10.100.4.50
+nameserver 10.100.4.50 # Bastion Host Instance Private IP
 ```
 ### 3. **Set Up MySQL on the DB Instance**
 
@@ -95,7 +95,7 @@ GRANT ALL PRIVILEGES ON test_db.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 ```
 #### Configure MySQL to Allow Remote Access:
-Edit the MySQL configuration file `/etc/mysql/mysql.conf.d/mysqld.cnf`:
+Edit the MySQL configuration file `/etc/mysql/mysql.conf.d/mysqld.cnf` with following line:
 ```bash
 bind-address = 0.0.0.0
 ```
@@ -188,23 +188,13 @@ Create `main.py` file, and run FastAPI application with:
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
-- Access `https://api.lab.aandd.io/docs` for API docs and execution
+- Access `https://api.lab.aandd.io/docs` for API docs and login with username and password created in file `main.py` for API execution
 
 ### 6. **Install and configure phpMyAdmin on External Client**
 - Install phpMyAdmin
 ```bash
-sudo apt update && sudo apt install phpmyadmin -y
+sudo apt update && sudo apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 ```
-- Configure phpMyAdmin to Access Through Bastion Proxy:
-  - Edit `/etc/phpmyadmin/config.inc.php` and set the following:
-  ```bash
-    # config remote mysql database
-    $i++;
-    $cfg['Servers'][$i]['host'] = 'api.lab.aandd.io:3306'; #provide hostname and port if other than default
-    $cfg['Servers'][$i]['user'] = '';   #username for your remote server
-    $cfg['Servers'][$i]['password'] = '';  #password
-    $cfg['Servers'][$i]['auth_type'] = 'cookie';       #keep it as config
-  ```
 - Install and Configure Nginx Webserver for phpMyAdmin
   - Install NGINX:
   ```bash
@@ -254,6 +244,16 @@ sudo apt update && sudo apt install phpmyadmin -y
   sudo nginx -t
   sudo systemctl reload nginx
   ```
+  - Configure phpMyAdmin to Access Through Bastion Proxy:  
+  Edit `/etc/phpmyadmin/config.inc.php` and set the following:
+  ```bash
+    # config remote mysql database
+    $i++;
+    $cfg['Servers'][$i]['host'] = 'api.lab.aandd.io:3306'; #provide hostname and port
+    $cfg['Servers'][$i]['user'] = '';
+    $cfg['Servers'][$i]['password'] = ''; 
+    $cfg['Servers'][$i]['auth_type'] = 'cookie';      
+  ```
 - Access phpMyAdmin:
-  - Navigate to http://external_ip/ and log in using your MySQL credentials.
+  - Navigate to https://external_instance_ip/ and log in using your MySQL credentials.
 
